@@ -4,7 +4,16 @@ Description: >
   Chore_App
 
   Sample SAM Template for Chore_App
-  
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: aws-chore-app
+    Description: App to keep track of chores.
+    Author: tharalso
+    Labels: ['tests']
+    HomePageUrl: https://github.com/tharalso/Chore_App
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/tharalso/Chore_App
+   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -18,7 +27,7 @@ Resources:
       VpcConfig: 
         SecurityGroupIds: [ "sg-d2c055a0" ]
         SubnetIds: [ "subnet-0067985a" , "subnet-e6eb4980"]
-      CodeUri: get-all-chores/
+      CodeUri: ./get-all-chores/
       Handler: app.lambdaHandler
       Events: 
         HelloWorld:
@@ -41,7 +50,7 @@ Resources:
       VpcConfig: 
         SecurityGroupIds: [ "sg-d2c055a0" ]
         SubnetIds: [ "subnet-0067985a" , "subnet-e6eb4980"]
-      CodeUri: get-all-user-chores/
+      CodeUri: get-all-user-chores/getAllUserChores.js
       Handler: getAllUserChores.lambdaHandler
       Events: 
         HelloWorld:
