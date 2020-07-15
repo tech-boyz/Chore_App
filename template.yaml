@@ -50,7 +50,7 @@ Resources:
       VpcConfig: 
         SecurityGroupIds: [ "sg-d2c055a0" ]
         SubnetIds: [ "subnet-0067985a" , "subnet-e6eb4980"]
-      CodeUri: get-all-user-chores/getAllUserChores.js
+      CodeUri: ./get-all-user-chores/
       Handler: getAllUserChores.lambdaHandler
       Events: 
         HelloWorld:
