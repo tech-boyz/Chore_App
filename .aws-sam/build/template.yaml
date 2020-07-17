@@ -1,35 +1,37 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  Chore_App
+Description: 'Chore_App
 
   Sample SAM Template for Chore_App
+
+  '
 Metadata:
   AWS::ServerlessRepo::Application:
     Name: aws-chore-app
     Description: App to keep track of chores.
     Author: tharalso
-    Labels: ['tests']
+    Labels:
+    - tests
     HomePageUrl: https://github.com/tharalso/Chore_App
     SemanticVersion: 0.0.1
     SourceCodeUrl: https://github.com/tharalso/Chore_App
-   
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
-
 Resources:
   GetAllUserChores:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs10.x
-      VpcConfig: 
-        SecurityGroupIds: [ "sg-d2c055a0" ]
-        SubnetIds: [ "subnet-0067985a" , "subnet-e6eb4980"]
-      CodeUri: ./get-all-user-chores/
+      VpcConfig:
+        SecurityGroupIds:
+        - sg-d2c055a0
+        SubnetIds:
+        - subnet-0067985a
+        - subnet-e6eb4980
+      CodeUri: GetAllUserChores
       Handler: app.lambdaHandler
-      Events: 
+      Events:
         HelloWorld:
           Type: Api
           Properties:
@@ -37,8 +39,8 @@ Resources:
             Method: get
       Environment:
         Variables:
-          POSTGRES_DBNAME: "postgres"
-          POSTGRES_HOST: "chore-chart.cwjhutxwgvqs.us-west-1.rds.amazonaws.com"
-          POSTGRES_PASS: "UuOW9n2fvCZbKxS64R0v"
-          POSTGRES_PORT: "5432"
-          POSTGRES_USER: "anteaters" 
+          POSTGRES_DBNAME: postgres
+          POSTGRES_HOST: chore-chart.cwjhutxwgvqs.us-west-1.rds.amazonaws.com
+          POSTGRES_PASS: UuOW9n2fvCZbKxS64R0v
+          POSTGRES_PORT: '5432'
+          POSTGRES_USER: anteaters
