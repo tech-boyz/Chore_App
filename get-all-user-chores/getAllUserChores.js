@@ -64,3 +64,4 @@ function getAllUserChores(client) {
     .catch((err) => {
       return err;
     });
+}
