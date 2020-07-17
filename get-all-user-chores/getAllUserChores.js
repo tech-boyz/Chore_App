@@ -1,7 +1,3 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
-//let response;
-//const url = require()
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -16,34 +12,55 @@
  */
 const { Client } = require('pg');
 
-exports.lambdaHandler = async(event) => {
-    const client = new Client({
-      host: process.env.POSTGRES_HOST,
-      port: process.env.POSTGRES_PORT,
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASS,
-      database: process.env.POSTGRES_DBNAME 
-    });
-    client
-      .connect()
-      .then((response) => {
-        console.log("connected");
-      })
-      .catch((err) => {
-        console.log("error");
-        console.log(err);
-      });
-    
-    return new Promise(
-      (resolve, reject) => client
-      .query(`
-        SELECT u.first_name, u.last_name, c.chore_name
-        FROM public."Users" u INNER JOIN public."User_Chore" uc ON u.user_id=uc.user_id
-        INNER JOIN public."Chores" c ON uc.chore_id=c.chore_id;
-      `)
-      .then((res) => resolve(res.rows))
-      .catch((err) => reject(Error(err)))
-      .then(() => client.end())
-      );
-};
 
+exports.lambdaHandler = async function (event) {
+  console.log("test log");
+  const client = new Client({
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASS,
+    database: process.env.POSTGRES_DBNAME 
+  });
+  await client
+    .connect()
+    .then(() => {
+      console.log("Successfully connected to the DB!");
+    })
+    .catch((err) => {
+      console.log(`Hmmm, error: ${err}`);
+    });
+  let body = await getAllUserChores(client);
+  await client
+    .end()
+    .then(() => console.log('client has disconnected'))
+    .catch(err => console.error('error during disconnection', err.stack));
+  return {
+    "statusCode": 200,
+    "isBase64Encoded": false,
+    "headers": {
+            "my_header": "my_value"
+        },
+    "body": JSON.stringify(body)
+  }
+}
+
+function getAllUserChores(client) {
+  let user_chores;
+  return client
+    .query(`
+      SELECT "Users".first_name
+	      ,"Users".last_name
+	      ,"Chores".chore_name
+	      ,"Chores".chore_description
+	      ,"Chores".completed
+      FROM "Chores"
+      INNER JOIN "Users"
+      	ON "Users".user_id="Chores".assigned_to
+    `)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      return err;
+    });
