@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/osx,node,linux,windows
 env.json
+.aws/**
+.aws-sam/**
+packaged.yaml
 ### Linux ###
 *~
 
