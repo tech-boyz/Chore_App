@@ -22,7 +22,7 @@ exports.lambdaHandler = async function (event) {
     password: process.env.POSTGRES_PASS,
     database: process.env.POSTGRES_DBNAME 
   });
-  await client
+   await client
     .connect()
     .then(() => {
       console.log("Successfully connected to the DB!");
@@ -30,13 +30,13 @@ exports.lambdaHandler = async function (event) {
     .catch((err) => {
       console.log(`Hmmm, error: ${err}`);
     });
-  let body = await getAllUserChores(client);
+  let [body, statusCode] = await getAllUserChores(client);
   await client
     .end()
     .then(() => console.log('client has disconnected'))
     .catch(err => console.error('error during disconnection', err.stack));
   return {
-    "statusCode": 200,
+    "statusCode": statusCode,
     "isBase64Encoded": false,
     "headers": {
             "my_header": "my_value"
@@ -46,7 +46,6 @@ exports.lambdaHandler = async function (event) {
 }
 
 function getAllUserChores(client) {
-  let user_chores;
   return client
     .query(`
       SELECT "Users".first_name
@@ -59,9 +58,10 @@ function getAllUserChores(client) {
       	ON "Users".user_id="Chores".assigned_to
     `)
     .then((res) => {
-      return res.rows;
+      return [res.rows, 200];
     })
     .catch((err) => {
-      return err;
+      console.log(err);
+      return [{}, 500];
     });
 }
