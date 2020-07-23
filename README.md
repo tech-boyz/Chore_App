@@ -13,7 +13,7 @@ To build and deploy the application for the first time, run the following in you
 
 ```bash
 sam build
-sam deploy --parameter-overrides $(jq -r 'to_entries[] | "\(.key)=\(.value)"' config.json)
+sam deploy --parameter-overrides ParametersHere
 ```
 
 The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
