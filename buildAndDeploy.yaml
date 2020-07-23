@@ -1,0 +1,14 @@
+version: 0.2
+
+env:
+  parameter-store:
+    PostgresPass: PostgresPassword
+
+phases:
+  build:
+    commands:
+      - sam build
+
+  post_build:
+    commands:
+      - "sam deploy --no-confirm-changeset --parameter-overrides ParameterKey=POSTGRES_DBNAME,ParameterValue=postgres ParameterKey=POSTGRES_HOST,ParameterValue=chore-chart.cwjhutxwgvqs.us-west-1.rds.amazonaws.com ParameterKey=POSTGRES_PASS,ParameterValue=$PostgresPass ParameterKey=POSTGRES_PORT,ParameterValue=5432 ParameterKey=POSTGRES_USER,ParameterValue=anteaters" 
