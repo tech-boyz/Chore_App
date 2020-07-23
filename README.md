@@ -3,6 +3,16 @@ This is an application intended to keep track of and remind roomates/family memb
 
 This is built and run using AWS's SAM CLI. for more information, see [Information on sam CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 
+## Development Workflow
+
+Quick Info:
+
+- All PRs to `develop` and `master` require 1 approver and a passing build.
+- There should be no commits to master pushed. All changes should be submitted through a PR.
+- The `develop` branch contains the full history of the source code. 
+- Feature branches should be based on `develop`; use `git checkout -b myFeatureBranch develop`.
+- Once your feature is complete please submit a PR to `develop`. The only direct commits to `develop` should be small (such as a bug fix).
+
 ## Deploy the sample application
 
 The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
@@ -94,9 +104,3 @@ To delete the sample application that you created, use the AWS CLI. Assuming you
 ```bash
 aws cloudformation delete-stack --stack-name Chore_App
 ```
-
-## Resources
-
-See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
-
-Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
