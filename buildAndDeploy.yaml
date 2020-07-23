@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   parameter-store:
-    PostgresPass: /CodeBuild/PostgresPassword
+    PostgresPass: /aws/reference/secretsmanager/PostgresPassword 
 
 phases:
   pre_build:
