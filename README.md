@@ -3,6 +3,10 @@ This is an application intended to keep track of and remind roomates/family memb
 
 This is built and run using AWS's SAM CLI. for more information, see [Information on sam CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 
+## Build Status:
+
+![Build Status](https://codebuild.us-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiWGQwbysrZFE4Skg4T0diRVIwWktHTCtsZHdCNHhjOTFTQlRyaThGTFVuVjF1NDZuZ3ZJOWhEc0EyK05kajFUREFqV05jVjJtNlZTeGxkUDJFS1lhNVRBPSIsIml2UGFyYW1ldGVyU3BlYyI6ImNVWnpBOEIrRmdiZjZOUXMiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+
 ## Deploy the sample application
 
 The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
