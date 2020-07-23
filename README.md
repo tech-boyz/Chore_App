@@ -17,6 +17,14 @@ Quick Info:
 - Feature branches should be based on `develop`; use `git checkout -b myFeatureBranch develop`.
 - Once your feature is complete please submit a PR to `develop`. The only direct commits to `develop` should be small (such as a bug fix).
 
+## Deployment workflow
+
+Quick Info:
+
+- Three live environments, `Dev`, `Staging`, and `Production`
+- `release-*` branches map to Non-Prod environments. 
+- Once `develop` has amassed enough features and is stable enough, branch off to create a `release-*` branch. Whenever a branch with pattern `release-*` is created, a deployment will trigger to `Dev` and `Staging`.
+- PRs to master should be tagged with the release number. Once a PR to `master` is approved/merged, a build will trigger and immediately after a deployment to `Production`. `master` should always reflect the code that is on the live, `Production` environment. 
 
 ## Deploy the sample application
 
