@@ -2,12 +2,12 @@ version: 0.2
 
 env:
   parameter-store:
-    PostgresPass: /aws/reference/secretsmanager/PostgresPassword 
+    PostgresPass: /aws/reference/secretsmanager/PostgresPasswordProd
 
 phases:
   pre_build:
     commands:
-      - echo $PostgresPass
+      - echo PostgresPass
   build:
     commands:
       - sam build
