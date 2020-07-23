@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   secrets-manager:
-    PostgresPass: PostgresPasswordProd
+    PostgresPass: PostgresPasswordProd:password
 
 phases:
   pre_build:
