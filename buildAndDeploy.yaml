@@ -7,7 +7,7 @@ env:
 phases:
   pre_build:
     commands:
-      - echo PostgresPass
+      - echo $PostgresPass
   build:
     commands:
       - sam build
