@@ -5,6 +5,9 @@ env:
     PostgresPass: PostgresPassword
 
 phases:
+  pre_build:
+    commands:
+      - echo $PostgresPassword
   build:
     commands:
       - sam build
