@@ -1,9 +1,0 @@
-version: 0.0
-Resources:
-  - ChoreApp-GetAllUserChores-WKCQJ6MAKSW2:
-      Type: AWS::Lambda::Function
-      Properties:
-        Name: "ChoreApp-GetAllUserChores-WKCQJ6MAKSW2"
-        Alias: "ChoreApp-GetAllUserChores"
-        CurrentVersion: "1"
-        TargetVersion: "2"
