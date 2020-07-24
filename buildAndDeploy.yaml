@@ -1,7 +1,7 @@
 version: 0.2
 
 env:
-  secrets-manager:
+  parameter-store:
     PostgresPass: PostgresPasswordProd:password
 
 phases:
