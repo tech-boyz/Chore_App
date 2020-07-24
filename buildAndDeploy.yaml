@@ -2,6 +2,7 @@ version: 0.2
 
 env:
   secrets-manager:
+    PostgresUser: /CodeBuild/PostgresInfo:username
     PostgresPass: /CodeBuild/PostgresInfo:password
 
 phases:
@@ -14,4 +15,4 @@ phases:
 
   post_build:
     commands:
-      - "sam deploy --no-confirm-changeset --parameter-overrides ParameterKey=POSTGRES_DBNAME,ParameterValue=postgres ParameterKey=POSTGRES_HOST,ParameterValue=chore-chart.cwjhutxwgvqs.us-west-1.rds.amazonaws.com ParameterKey=POSTGRES_PASS,ParameterValue=$PostgresPass ParameterKey=POSTGRES_PORT,ParameterValue=5432 ParameterKey=POSTGRES_USER,ParameterValue=anteaters" 
+      - "sam deploy --no-confirm-changeset --parameter-overrides ParameterKey=POSTGRES_DBNAME,ParameterValue=postgres ParameterKey=POSTGRES_HOST,ParameterValue=chore-chart.cwjhutxwgvqs.us-west-1.rds.amazonaws.com ParameterKey=POSTGRES_PASS,ParameterValue=$PostgresPass ParameterKey=POSTGRES_PORT,ParameterValue=5432 ParameterKey=POSTGRES_USER,ParameterValue=$PostgresUser" 
