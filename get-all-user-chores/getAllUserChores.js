@@ -11,7 +11,10 @@
  * 
  */
 const { Client } = require('pg');
-
+exports.failureResponse = {
+     statusCode: 500,
+     body: "Oopsies. Something went wrong :("
+   };
 
 exports.lambdaHandler = async function (event) {
   console.log("test log");
@@ -22,6 +25,22 @@ exports.lambdaHandler = async function (event) {
     password: process.env.POSTGRES_PASS,
     database: process.env.POSTGRES_DBNAME 
   });
+
+  let queryResponse = await exports.getAllUserChores(client);
+
+  return {
+    "statusCode": queryResponse.statusCode,
+    "isBase64Encoded": false,
+    "headers": {
+            "my_header": "my_value"
+        },
+    "body": JSON.stringify(queryResponse.body)
+  }
+}
+
+exports.getAllUserChores = async function getAllUserChores(client) {
+   var queryResponse = null;
+
    await client
     .connect()
     .then(() => {
@@ -29,39 +48,37 @@ exports.lambdaHandler = async function (event) {
     })
     .catch((err) => {
       console.log(`Hmmm, error: ${err}`);
+      queryResponse = exports.failureResponse;
     });
-  let [body, statusCode] = await getAllUserChores(client);
+  if(queryResponse == null){
+    await client
+      .query(`
+        SELECT "Users".first_name
+	       ,"Users".last_name
+	       ,"Chores".chore_name
+	       ,"Chores".chore_description
+	       ,"Chores".completed
+        FROM "Chores"
+        INNER JOIN "Users"
+        	ON "Users".user_id="Chores".assigned_to
+      `)
+      .then((res) => {
+        queryResponse = {
+          body:res.rows,
+          statusCode: 200
+        };
+      })
+      .catch((err) => {
+        console.log(err);
+        queryResponse = exports.failureResponse;
+      });
+  }
   await client
     .end()
     .then(() => console.log('client has disconnected'))
-    .catch(err => console.error('error during disconnection', err.stack));
-  return {
-    "statusCode": statusCode,
-    "isBase64Encoded": false,
-    "headers": {
-            "my_header": "my_value"
-        },
-    "body": JSON.stringify(body)
-  }
-}
-
-function getAllUserChores(client) {
-  return client
-    .query(`
-      SELECT "Users".first_name
-	      ,"Users".last_name
-	      ,"Chores".chore_name
-	      ,"Chores".chore_description
-	      ,"Chores".completed
-      FROM "Chores"
-      INNER JOIN "Users"
-      	ON "Users".user_id="Chores".assigned_to
-    `)
-    .then((res) => {
-      return [res.rows, 200];
-    })
-    .catch((err) => {
-      console.log(err);
-      return [{}, 500];
+    .catch(err => {
+      console.error('error during disconnection', err.stack);
+      queryResponse = exports.failureResponse;
     });
+  return queryResponse;
 }
