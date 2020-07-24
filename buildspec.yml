@@ -7,9 +7,5 @@ phases:
 
   post_build:
     commands:
-      - sam package --output-template-file packaged.yaml --s3-bucket aws-chore-app
-
-artifacts:
-  type: zip
-  files:
-    - packaged.yaml
+      - cd .aws-sam/build/GetAllUserChores/
+      - npm test
