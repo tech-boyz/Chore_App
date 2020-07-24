@@ -3,9 +3,11 @@ This is an application intended to keep track of and remind roomates/family memb
 
 This is built and run using AWS's SAM CLI. for more information, see [Information on sam CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 
-## Build Status:
+## Project Status:
 
 ![Build Status](https://codebuild.us-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiWGQwbysrZFE4Skg4T0diRVIwWktHTCtsZHdCNHhjOTFTQlRyaThGTFVuVjF1NDZuZ3ZJOWhEc0EyK05kajFUREFqV05jVjJtNlZTeGxkUDJFS1lhNVRBPSIsIml2UGFyYW1ldGVyU3BlYyI6ImNVWnpBOEIrRmdiZjZOUXMiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+
+![Deployment Status](https://github.com/tech-boyz/Chore_App/workflows/deploy/badge.svg)
 
 ## Development Workflow
 
