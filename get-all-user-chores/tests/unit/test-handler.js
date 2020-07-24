@@ -2,7 +2,10 @@
 
 const app = require('../../getAllUserChores.js')
 const chai = require('chai')
+const mocha = require('mocha')
 const expect = chai.expect
+const describe = mocha.describe
+const it = mocha.it
 
 describe('Tests index', function () {
   it('verifies successful response', async () => {

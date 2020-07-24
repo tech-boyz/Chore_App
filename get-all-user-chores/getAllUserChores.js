@@ -50,7 +50,7 @@ exports.getAllUserChores = function getAllUserChores (client) {
     })
     .catch((err) => {
       console.log(`There was an error :( -> ${err}`)
-      return exports.failureReponse
+      return exports.failureResponse
     })
 }
 
