@@ -12,9 +12,9 @@
  */
 const { Client } = require('pg');
 exports.failureResponse = {
-     statusCode: 500,
-     body: "Oopsies. Something went wrong :("
-   };
+  statusCode: 500,
+  body: "Oopsies. Something went wrong :("
+};
 
 exports.lambdaHandler = async function (event) {
   console.log("test log");
@@ -27,59 +27,65 @@ exports.lambdaHandler = async function (event) {
   });
 
   let queryResponse = await exports.getAllUserChores(client);
+  queryResponse.body = JSON.stringify(queryResponse.body);
 
   return {
-    "statusCode": queryResponse.statusCode,
+    ...queryResponse,
     "isBase64Encoded": false,
     "headers": {
-            "my_header": "my_value"
-        },
-    "body": JSON.stringify(queryResponse.body)
+      "my_header": "my_value"
+    }
   }
 }
 
 exports.getAllUserChores = async function getAllUserChores(client) {
-   var queryResponse = null;
-
-   await client
+  return client
     .connect()
     .then(() => {
       console.log("Successfully connected to the DB!");
+      return queryUserChores(client);
+    })
+    .then((queryResponse) => {
+      return disconnectDB(client, queryResponse);
     })
     .catch((err) => {
-      console.log(`Hmmm, error: ${err}`);
-      queryResponse = exports.failureResponse;
+      console.log(`There was an error :( -> ${err}`);
+      return exports.failureReponse;
     });
-  if(queryResponse == null){
-    await client
-      .query(`
-        SELECT "Users".first_name
-	       ,"Users".last_name
-	       ,"Chores".chore_name
-	       ,"Chores".chore_description
-	       ,"Chores".completed
-        FROM "Chores"
-        INNER JOIN "Users"
-        	ON "Users".user_id="Chores".assigned_to
-      `)
-      .then((res) => {
-        queryResponse = {
-          body:res.rows,
-          statusCode: 200
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-        queryResponse = exports.failureResponse;
-      });
-  }
-  await client
-    .end()
-    .then(() => console.log('client has disconnected'))
-    .catch(err => {
-      console.error('error during disconnection', err.stack);
-      queryResponse = exports.failureResponse;
-    });
-  return queryResponse;
 }
 
+async function queryUserChores(client) {
+  return client
+    .query(`
+        SELECT "Users".first_name
+         ,"Users".last_name
+         ,"Chores".chore_name
+         ,"Chores".chore_description
+         ,"Chores".completed
+        FROM "Chores"
+        INNER JOIN "Users"
+          ON "Users".user_id="Chores".assigned_to
+      `)
+    .then((res) => {
+      return new {
+        body:res.rows,
+        statusCode: 200
+      };
+    })
+    .catch((err) => {
+      console.log(`Error occured in querying User's Chores: ${err}`);
+      return exports.failureResponse;
+    });
+}
+
+async function disconnectDB(client, queryResponse) {
+  return client
+    .end()
+    .then(() => {
+      console.log("Successfully disconnected from DB");
+      return queryResponse; 
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
