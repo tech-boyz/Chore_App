@@ -82,3 +82,4 @@ exports.getAllUserChores = async function getAllUserChores(client) {
     });
   return queryResponse;
 }
+
