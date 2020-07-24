@@ -30,7 +30,6 @@ describe('Tests index', function () {
     }
     const queryResponse = await app.getAllUserChores(sucessfulClient)
 
-    console.log(queryResponse)
     expect(queryResponse).to.be.an('object')
     expect(queryResponse.statusCode).to.equal(200)
     expect(queryResponse.body).to.be.an('array')
@@ -61,7 +60,6 @@ describe('Tests index', function () {
     }
     const queryResponse = await app.getAllUserChores(failedConnectClient)
 
-    console.log(queryResponse)
     expect(queryResponse).to.be.an('object')
     expect(queryResponse).to.equal(app.failureResponse)
   })
@@ -84,7 +82,7 @@ describe('Tests index', function () {
       }
     }
     const queryResponse = await app.getAllUserChores(failedQueryClient)
-    console.log(queryResponse)
+
     expect(queryResponse).to.be.an('object')
     expect(queryResponse).to.equal(app.failureResponse)
   })
@@ -109,7 +107,7 @@ describe('Tests index', function () {
       }
     }
     const queryResponse = await app.getAllUserChores(failedDisconnectClient)
-    console.log(queryResponse)
+
     expect(queryResponse).to.be.an('object')
     expect(queryResponse).to.equal(app.failureResponse)
   })
