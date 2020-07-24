@@ -6,13 +6,10 @@ env:
     PostgresPass: /CodeBuild/PostgresInfo:password
 
 phases:
-  pre_build:
-    commands:
-      - echo $PostgresPass
   build:
     commands:
       - sam build
 
   post_build:
     commands:
-      - "sam deploy --no-confirm-changeset --parameter-overrides ParameterKey=PostgresDbname,ParameterValue=postgres ParameterKey=PostgresHost,ParameterValue=chore-chart.cwjhutxwgvqs.us-west-1.rds.amazonaws.com ParameterKey=PostgresPassword,ParameterValue=$PostgresPass ParameterKey=PostgresPort,ParameterValue=5432 ParameterKey=PostgresUser,ParameterValue=$PostgresUser"
+      - "sam deploy --force-upload  --no-confirm-changeset --parameter-overrides ParameterKey=PostgresDbname,ParameterValue=postgres ParameterKey=PostgresHost,ParameterValue=chore-chart.cwjhutxwgvqs.us-west-1.rds.amazonaws.com ParameterKey=PostgresPass,ParameterValue=$PostgresPass ParameterKey=PostgresPort,ParameterValue=5432 ParameterKey=PostgresUser,ParameterValue=$PostgresUser"

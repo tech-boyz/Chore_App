@@ -28,7 +28,7 @@ exports.lambdaHandler = async function (event) {
       console.log("Successfully connected to the DB!");
     })
     .catch((err) => {
-      console.log(`Hmmm, error: ${err}`);
+      console.log(`Hmm, error: ${err}`);
     });
   let [body, statusCode] = await getAllUserChores(client);
   await client
