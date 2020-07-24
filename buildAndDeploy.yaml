@@ -1,8 +1,8 @@
 version: 0.2
 
 env:
-  parameter-store:
-    PostgresPass: PostgresPasswordProd:password
+  secrets-manager:
+    PostgresPass: /CodeBuild/PostgresInfo
 
 phases:
   pre_build:
