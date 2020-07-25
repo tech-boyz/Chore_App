@@ -19,6 +19,16 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: npm install
+      run: |
+        cd .aws-sam/build/GetAllUserChores/ 
+        npm test
+
+    - name: npm test
+      run: |
+        cd .aws-sam/build/GetAllUserChores/ 
+        npm test
+
     - name: sam build
       uses: TractorZoom/sam-cli-action@master
       with:
@@ -27,11 +37,6 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: us-west-1
-
-    - name: npm test
-      run: |
-        cd .aws-sam/build/GetAllUserChores/ 
-        npm test
 
     - name: sam deploy
       uses: TractorZoom/sam-cli-action@master
