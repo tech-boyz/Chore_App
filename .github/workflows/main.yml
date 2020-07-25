@@ -19,17 +19,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: cd to lambda dir
-      run: cd get-all-user-chores
-
-    - name: npm install
-      run: npm install
-
-    - name: npm test
-      run: npm test
-
-    - name: Uninstall node_modules
-      run: npm run clean
+    - name: run-unit-tests
+      run: |
+        cd get-all-user-chores
+        npm install
+        npm test
+        npm run clean
 
   check-build:
     needs: run-unit-tests
