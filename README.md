@@ -5,9 +5,8 @@ This is built and run using AWS's SAM CLI. for more information, see [Informatio
 
 ## Project Status:
 
-![Build Status](https://codebuild.us-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiWGQwbysrZFE4Skg4T0diRVIwWktHTCtsZHdCNHhjOTFTQlRyaThGTFVuVjF1NDZuZ3ZJOWhEc0EyK05kajFUREFqV05jVjJtNlZTeGxkUDJFS1lhNVRBPSIsIml2UGFyYW1ldGVyU3BlYyI6ImNVWnpBOEIrRmdiZjZOUXMiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+![build](https://github.com/tech-boyz/Chore_App/workflows/build/badge.svg) ![Deployment Status](https://github.com/tech-boyz/Chore_App/workflows/deploy/badge.svg)
 
-![Deployment Status](https://github.com/tech-boyz/Chore_App/workflows/deploy/badge.svg)
 
 ## Development Workflow
 
