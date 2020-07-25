@@ -9,8 +9,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  run-unit-tests:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -20,15 +19,19 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: npm install
-      run: |
-        cd .aws-sam/build/GetAllUserChores/ 
-        npm test
+      run: npm install
 
     - name: npm test
-      run: |
-        cd .aws-sam/build/GetAllUserChores/ 
-        npm test
+      run: npm test
 
+    - name: Uninstall node_modules
+      run: npm run clean
+
+  build:
+    needs: run-unit-tests
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: sam build
       uses: TractorZoom/sam-cli-action@master
       with:
@@ -38,6 +41,11 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: us-west-1
 
+  deploy:
+    needs: [run-unit-tests, build]
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: sam deploy
       uses: TractorZoom/sam-cli-action@master
       with:
