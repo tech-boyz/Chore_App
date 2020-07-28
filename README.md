@@ -5,7 +5,7 @@ This is built and run using AWS's SAM CLI. for more information, see [Informatio
 
 ## Project Status:
 
-![build](https://github.com/tech-boyz/Chore_App/workflows/build/badge.svg) ![Deployment Status](https://github.com/tech-boyz/Chore_App/workflows/deploy/badge.svg)
+![build](https://github.com/tech-boyz/Chore_App/workflows/build/badge.svg) ![Deployment Status](https://github.com/tech-boyz/Chore_App/workflows/deploy/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/tech-boyz/Chore_App/badge.svg?branch=testCoverage)](https://coveralls.io/github/tech-boyz/Chore_App?branch=testCoverage)
 
 
 ## Development Workflow
