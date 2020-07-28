@@ -1,22 +1,114 @@
-'use strict';
+'use strict'
 
-const app = require('../../app.js');
-const chai = require('chai');
-const expect = chai.expect;
-var event, context;
+const app = require('../../getAllUserChores.js')
+const chai = require('chai')
+const mocha = require('mocha')
+const expect = chai.expect
+const describe = mocha.describe
+const it = mocha.it
 
 describe('Tests index', function () {
-    it('verifies successful response', async () => {
-        const result = await app.lambdaHandler(event, context)
+  it('verifies successful response', async () => {
+    const sucessfulClient = {
+      query: (str) => {
+        return new Promise((resolve) => {
+          resolve({
+            rows: [{}]
+          })
+        })
+      },
+      connect: () => {
+        return new Promise((resolve) => {
+          resolve({})
+        })
+      },
+      end: () => {
+        return new Promise((resolve) => {
+          resolve({})
+        })
+      }
+    }
+    const queryResponse = await app.getAllUserChores(sucessfulClient)
 
-        expect(result).to.be.an('object');
-        expect(result.statusCode).to.equal(200);
-        expect(result.body).to.be.an('string');
+    expect(queryResponse).to.be.an('object')
+    expect(queryResponse.statusCode).to.equal(200)
+    expect(queryResponse.body).to.be.an('array')
 
-        let response = JSON.parse(result.body);
+    const response = JSON.stringify(queryResponse.body)
 
-        expect(response).to.be.an('object');
-        expect(response.message).to.be.equal("hello world");
-        // expect(response.location).to.be.an("string");
-    });
-});
+    expect(response).to.be.an('string')
+  })
+  it('verifies correct handling of unsucessfull connect', async () => {
+    const failedConnectClient = {
+      query: (str) => {
+        return new Promise((resolve) => {
+          resolve({
+            rows: [{}]
+          })
+        })
+      },
+      connect: () => {
+        return new Promise((resolve, reject) => {
+          reject(Error('haha you failed'))
+        })
+      },
+      end: () => {
+        return new Promise((resolve, reject) => {
+          resolve({})
+        })
+      }
+    }
+    const queryResponse = await app.getAllUserChores(failedConnectClient)
+
+    expect(queryResponse).to.be.an('object')
+    expect(queryResponse).to.equal(app.failureResponse)
+  })
+  it('verifies sucessfull handling of unsucessful query', async () => {
+    const failedQueryClient = {
+      query: (str) => {
+        return new Promise((resolve, reject) => {
+          reject(new Error('haha you failed.'))
+        })
+      },
+      connect: () => {
+        return new Promise((resolve, reject) => {
+          resolve({})
+        })
+      },
+      end: () => {
+        return new Promise((resolve, reject) => {
+          resolve({})
+        })
+      }
+    }
+    const queryResponse = await app.getAllUserChores(failedQueryClient)
+
+    expect(queryResponse).to.be.an('object')
+    expect(queryResponse).to.equal(app.failureResponse)
+  })
+  it('verifies sucessful handling of unsucessful disconnect', async () => {
+    const failedDisconnectClient = {
+      query: (str) => {
+        return new Promise((resolve, reject) => {
+          resolve({
+            rows: [{}]
+          })
+        })
+      },
+      connect: () => {
+        return new Promise((resolve, reject) => {
+          resolve({})
+        })
+      },
+      end: () => {
+        return new Promise((resolve, reject) => {
+          reject(new Error('haha u failed'))
+        })
+      }
+    }
+    const queryResponse = await app.getAllUserChores(failedDisconnectClient)
+
+    expect(queryResponse).to.be.an('object')
+    expect(queryResponse).to.equal(app.failureResponse)
+  })
+})
