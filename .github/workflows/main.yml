@@ -22,7 +22,7 @@ jobs:
     - name: run-unit-tests-and-post-coverage
       env: 
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        COVERALLS_GIT_BRANCH: ${{ github.ref }}
+        COVERALLS_GIT_BRANCH: ${{ github.head_ref }}
       run: |
         cd get-all-user-chores
         npm install
