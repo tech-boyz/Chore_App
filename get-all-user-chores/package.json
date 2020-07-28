@@ -12,7 +12,8 @@
     "pg": "^7.0"
   },
   "scripts": {
-    "test": "nyc -r lcov mocha tests/unit/"
+    "test": "nyc -r lcov mocha tests/unit/",
+    "clean": "rm -rf node_modules"
   },
   "devDependencies": {
     "chai": "^4.2.0",
