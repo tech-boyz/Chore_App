@@ -24,7 +24,8 @@ exports.lambdaHandler = async function (event) {
 }
 
 async function rotateChores (client) {
-  return client.connect()
+  return client
+    .connect()
     .then(() => {
       console.log('Successfully connected to the DB!')
       return getChoreAssignments(client)
@@ -33,17 +34,17 @@ async function rotateChores (client) {
       return rotateChoreAssignment(choreAssignment)
     })
     .then((newChoreAssignment) => {
-      setChoreAssignment(newChoreAssignment)
+      setChoreAssignment(newChoreAssignment, client)
     })
     .catch((err) => {
       disconnectDb(client)
       console.log(`There was an error :( -> ${err}`)
     })
 }
-function setChoreAssignment (client) {
+function setChoreAssignment (newChoreAssignment, client) {
 
 }
-function rotateChoreAssignment (client) {
+function rotateChoreAssignment (choreAssignment) {
 
 }
 function getChoreAssignments (client) {
