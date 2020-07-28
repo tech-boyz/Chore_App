@@ -30,6 +30,7 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: get-all-user-chores/coverage/lcov.info
 
   check-build:
     needs: run-unit-tests
