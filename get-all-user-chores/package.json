@@ -12,7 +12,7 @@
     "pg": "^7.0"
   },
   "scripts": {
-    "test": "nyc -r lcov mocha tests/unit/",
+    "test": "nyc -r lcovonly mocha tests/unit/",
     "clean": "rm -rf node_modules"
   },
   "devDependencies": {
