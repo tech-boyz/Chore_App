@@ -19,18 +19,15 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: run-unit-tests
+    - name: run-unit-tests-and-post-coverage
+      env: 
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
         cd get-all-user-chores
         npm install
         npm test
         npm run clean
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: get-all-user-chores/coverage/lcov.info
 
   check-build:
     needs: run-unit-tests
