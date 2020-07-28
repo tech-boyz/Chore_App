@@ -7,6 +7,7 @@ This is built and run using AWS's SAM CLI. for more information, see [Informatio
 
 ![build](https://github.com/tech-boyz/Chore_App/workflows/build/badge.svg) ![Deployment Status](https://github.com/tech-boyz/Chore_App/workflows/deploy/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/tech-boyz/Chore_App/badge.svg?branch=testCoverage)](https://coveralls.io/github/tech-boyz/Chore_App?branch=testCoverage)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/tech-boyz/Chore_App/badge.svg?targetFile=get-all-user-chores/package.json)](https://snyk.io/test/github/tech-boyz/Chore_App?targetFile=get-all-user-chores/package.json)
 
 ## Development Workflow
 
