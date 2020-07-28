@@ -22,7 +22,7 @@ exports.lambdaHandler = async function (event) {
   })
   await rotateChores(client)
 }
-
+// not very SOLID of me. Consider refactoring.
 async function rotateChores (client) {
   return client
     .connect()
