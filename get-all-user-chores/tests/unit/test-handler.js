@@ -7,6 +7,8 @@ const expect = chai.expect
 const describe = mocha.describe
 const it = mocha.it
 
+console.log = function() {};
+
 describe('Tests index', function () {
   it('verifies successful response', async () => {
     const sucessfulClient = {
