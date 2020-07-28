@@ -1,0 +1,11 @@
+{
+  "name": "update_chores",
+  "version": "1.0.0",
+  "description": "Lambda to update all user chores",
+  "main": "rotateChores.js",
+  "scripts": {
+    "test": "mocha tests/unit/"
+  },
+  "author": "",
+  "license": "ISC"
+}
