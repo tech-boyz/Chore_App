@@ -62,7 +62,7 @@ Resources:
         SubnetIds: [ "subnet-0067985a" , "subnet-e6eb4980"]
       CodeUri: ./rotate-chores/
       Handler: rotateChores.lambdaHandler
-      Events: 
+      # TODO: Include events
       Environment:
         Variables:
           POSTGRES_DBNAME: !Ref PostgresDbname

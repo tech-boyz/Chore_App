@@ -8,10 +8,6 @@ const describe = mocha.describe;
 const it = mocha.it;
 
 describe("Tests index", function () {
-  it("test", async () => {
-    expect([{a:3, b:3}]).to.have.deep.members([{a:3, b:3}]);
-
-  });
   it("verifies correct rotation", async () => {
     const previousChores = [ 
       { chore_id: "d9024d40-b0b6-4568-8c0f-db6b1b0b7acb",
@@ -33,4 +29,5 @@ describe("Tests index", function () {
     expect(rotatedChores).to.have.deep.members(expectedUpdatedChores);
 
   });
+
 });

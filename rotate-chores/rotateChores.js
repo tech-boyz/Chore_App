@@ -12,7 +12,6 @@
  */
 
 const { Client } = require("pg");
-
 exports.lambdaHandler = async function (event) {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
@@ -23,7 +22,7 @@ exports.lambdaHandler = async function (event) {
   });
   await rotateChores(client);
 };
-// not very SOLID of me. Consider refactoring.
+// TODO: not very SOLID of me. Consider refactoring.
 async function rotateChores (client) {
   return client
     .connect()
@@ -35,32 +34,48 @@ async function rotateChores (client) {
       return exports.rotateChoreAssignment(choreAssignment);
     })
     .then((newChoreAssignment) => {
-      setChoreAssignment(newChoreAssignment, client);
+      return setChoreAssignment(newChoreAssignment, client);
     })
     .catch((err) => {
       disconnectDb(client);
       console.log(`There was an error :( -> ${err}`);
+      return;
+    })
+    .then(() => {
+      return disconnectDb(client);
     });
 }
 function setChoreAssignment (newChoreAssignment, client) {
-  console.log(newChoreAssignment);
+  const updateQuery = getChoreUpdateQuery(newChoreAssignment);
+  return client
+    .query(updateQuery);
 }
 
+// TODO: offload dev/public to enviornment variable.
+function getChoreUpdateQuery(newChoreAssignment){
+  var updateQueryString = "";
+  newChoreAssignment.forEach(assignment => {
+    updateQueryString +=
+      ` UPDATE dev."Chores" 
+        SET assigned_to='${assignment.assigned_to}'
+        WHERE chore_id='${assignment.chore_id}';
+      `;
+  }); 
+  return updateQueryString;
+}
+// TODO: Discuss how to offload the method of rotation to configuration.
 exports.rotateChoreAssignment = function rotateChoreAssignment (choreAssignment) {
-  console.log(choreAssignment);
   const choreAssignemntSize = choreAssignment.length;
+
   let newChoreAssignment = [{
     chore_id: choreAssignment[choreAssignemntSize - 1].chore_id,
     assigned_to: choreAssignment[0].assigned_to
   }];
-  for(let i = 0; i < choreAssignemntSize - 1; i++) {
-    newChoreAssignment.push(
-      {
-        chore_id: choreAssignment[i].chore_id,
-        assigned_to: choreAssignment[i+1].assigned_to
-      }
-    );
-  } 
+  for(let i = 0; i < choreAssignemntSize - 1; i++)
+    newChoreAssignment.push({
+      chore_id: choreAssignment[i].chore_id,
+      assigned_to: choreAssignment[i+1].assigned_to
+    });
   return newChoreAssignment;
 };
 
@@ -68,7 +83,7 @@ function getChoreAssignments (client) {
   return client.query(`
     SELECT c.chore_id, c.assigned_to 
     FROM dev."Chores" c
-  `)
+    `)
     .then( (res) => {
       return res.rows;
     });
