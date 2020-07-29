@@ -32,7 +32,7 @@ async function rotateChores (client) {
       return getChoreAssignments(client);
     })
     .then((choreAssignment) => {
-      return rotateChoreAssignment(choreAssignment);
+      return exports.rotateChoreAssignment(choreAssignment);
     })
     .then((newChoreAssignment) => {
       setChoreAssignment(newChoreAssignment, client);
@@ -43,16 +43,35 @@ async function rotateChores (client) {
     });
 }
 function setChoreAssignment (newChoreAssignment, client) {
-
+  console.log(newChoreAssignment);
 }
-function rotateChoreAssignment (choreAssignment) {
 
-}
+exports.rotateChoreAssignment = function rotateChoreAssignment (choreAssignment) {
+  console.log(choreAssignment);
+  const choreAssignemntSize = choreAssignment.length;
+  let newChoreAssignment = [{
+    chore_id: choreAssignment[choreAssignemntSize - 1].chore_id,
+    assigned_to: choreAssignment[0].assigned_to
+  }];
+  for(let i = 0; i < choreAssignemntSize - 1; i++) {
+    newChoreAssignment.push(
+      {
+        chore_id: choreAssignment[i].chore_id,
+        assigned_to: choreAssignment[i+1].assigned_to
+      }
+    );
+  } 
+  return newChoreAssignment;
+};
+
 function getChoreAssignments (client) {
   return client.query(`
     SELECT c.chore_id, c.assigned_to 
     FROM dev."Chores" c
-  `);
+  `)
+    .then( (res) => {
+      return res.rows;
+    });
 }
 
 function disconnectDb (client) {
