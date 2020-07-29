@@ -28,7 +28,7 @@ async function rotateChores (client) {
   return client
     .connect()
     .then(() => {
-      console.log("Successfully connected to the DB!")
+      console.log("Successfully connected to the DB!");
       return getChoreAssignments(client);
     })
     .then((choreAssignment) => {
