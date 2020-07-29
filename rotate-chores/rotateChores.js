@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 /**
  *
@@ -10,7 +11,7 @@
  *
  */
 
-const { Client } = require('pg')
+const { Client } = require("pg");
 
 exports.lambdaHandler = async function (event) {
   const client = new Client({
@@ -19,27 +20,27 @@ exports.lambdaHandler = async function (event) {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASS,
     database: process.env.POSTGRES_DBNAME
-  })
-  await rotateChores(client)
-}
+  });
+  await rotateChores(client);
+};
 // not very SOLID of me. Consider refactoring.
 async function rotateChores (client) {
   return client
     .connect()
     .then(() => {
-      console.log('Successfully connected to the DB!')
-      return getChoreAssignments(client)
+      console.log("Successfully connected to the DB!")
+      return getChoreAssignments(client);
     })
     .then((choreAssignment) => {
-      return rotateChoreAssignment(choreAssignment)
+      return rotateChoreAssignment(choreAssignment);
     })
     .then((newChoreAssignment) => {
-      setChoreAssignment(newChoreAssignment, client)
+      setChoreAssignment(newChoreAssignment, client);
     })
     .catch((err) => {
-      disconnectDb(client)
-      console.log(`There was an error :( -> ${err}`)
-    })
+      disconnectDb(client);
+      console.log(`There was an error :( -> ${err}`);
+    });
 }
 function setChoreAssignment (newChoreAssignment, client) {
 
@@ -51,13 +52,13 @@ function getChoreAssignments (client) {
   return client.query(`
     SELECT c.chore_id, c.assigned_to 
     FROM dev."Chores" c
-  `)
+  `);
 }
 
 function disconnectDb (client) {
   return client
     .end()
     .then(() => {
-      console.log('Successfully disconnected from DB')
-    })
+      console.log("Successfully disconnected from DB");
+    });
 }
