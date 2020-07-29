@@ -10,14 +10,31 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  run-unit-tests:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: run-unit-tests-and-post-coverage
+      env: 
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        COVERALLS_GIT_BRANCH: ${{ github.head_ref }}
+      run: |
+        cd get-all-user-chores
+        npm install
+        npm test
+        npm run clean
+
+
+  check-build:
+    needs: run-unit-tests
+    runs-on: ubuntu-latest
+    
+    steps:
     - uses: actions/checkout@v2
 
     - name: sam build

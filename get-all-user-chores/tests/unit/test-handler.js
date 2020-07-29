@@ -8,7 +8,14 @@ const expect = chai.expect;
 const describe = mocha.describe;
 const it = mocha.it;
 
+console.log = function() {};
+
 describe("Tests index", function () {
+  it("verifies lambda handler", async() => {
+    let event = {};
+    let response = await app.lambdaHandler(event);
+    expect(response.statusCode).to.equal(500);
+  });
   it("verifies successful response", async () => {
     const sucessfulClient = {
       query: (str) => {
