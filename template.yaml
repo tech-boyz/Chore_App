@@ -5,6 +5,8 @@ Description: >
 
   Sample SAM Template for Chore_App
 Parameters:
+  NodeEnv:
+    Type: String
   PostgresDbname:
     Type: String
   PostgresHost:
@@ -48,6 +50,7 @@ Resources:
             Method: get
       Environment:
         Variables:
+          NODE_ENV: !Ref NodeEnv
           POSTGRES_DBNAME: !Ref PostgresDbname
           POSTGRES_HOST: !Ref PostgresHost
           POSTGRES_PASS: !Ref PostgresPass
@@ -69,6 +72,7 @@ Resources:
             Schedule: chron(0 0 * * MON *)
       Environment:
         Variables:
+          NODE_ENV: NodeEnv
           POSTGRES_DBNAME: !Ref PostgresDbname
           POSTGRES_HOST: !Ref PostgresHost
           POSTGRES_PASS: !Ref PostgresPass

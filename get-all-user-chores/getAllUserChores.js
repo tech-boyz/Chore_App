@@ -12,6 +12,8 @@
  *
  */
 const { Client } = require("pg");
+const schema = process.env.NODE_ENV === "production" ? "public" : "dev";
+
 exports.failureResponse = {
   statusCode: 500,
   body: "Oopsies. Something went wrong :("
@@ -19,6 +21,7 @@ exports.failureResponse = {
 
 exports.lambdaHandler = async function (event) {
   console.log("test log");
+  console.log(schema);
   const client = new Client({
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,
@@ -58,14 +61,14 @@ exports.getAllUserChores = function getAllUserChores (client) {
 function queryUserChores (client) {
   return client
     .query(`
-        SELECT "Users".first_name
-         ,"Users".last_name
-         ,"Chores".chore_name
-         ,"Chores".chore_description
-         ,"Chores".completed
-        FROM "Chores"
-        INNER JOIN "Users"
-          ON "Users".user_id="Chores".assigned_to
+        SELECT ${schema}."Users".first_name
+         ,${schema}."Users".last_name
+         ,${schema}."Chores".chore_name
+         ,${schema}."Chores".chore_description
+         ,${schema}."Chores".completed
+        FROM ${schema}."Chores"
+        INNER JOIN ${schema}."Users"
+          ON ${schema}."Users".user_id=${schema}."Chores".assigned_to
       `)
     .then((res) => {
       return {

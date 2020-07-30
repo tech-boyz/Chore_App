@@ -12,6 +12,8 @@
  */
 
 const { Client } = require("pg");
+const schema = process.env.NODE_ENV === "production" ? "public" : "dev";
+
 exports.lambdaHandler = async function (event) {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
@@ -22,7 +24,7 @@ exports.lambdaHandler = async function (event) {
   });
   await rotateChores(client);
 };
-// TODO: not very SOLID of me. Consider refactoring.
+
 async function rotateChores (client) {
   return client
     .connect()
@@ -51,22 +53,22 @@ function setChoreAssignment (newChoreAssignment, client) {
     .query(updateQuery);
 }
 
-// TODO: offload dev/public to enviornment variable.
 function getChoreUpdateQuery(newChoreAssignment){
   var updateQueryString = "";
   newChoreAssignment.forEach(assignment => {
     updateQueryString +=
-      ` UPDATE dev."Chores" 
+      ` UPDATE ${schema}."Chores" 
         SET assigned_to='${assignment.assigned_to}'
         WHERE chore_id='${assignment.chore_id}';
       `;
   }); 
   return updateQueryString;
 }
-// TODO: Discuss how to offload the method of rotation to configuration.
+
 exports.rotateChoreAssignment = function rotateChoreAssignment (choreAssignment) {
   const choreAssignemntSize = choreAssignment.length;
-
+  console.log(process.env.NODE_ENV);
+  console.log("test");
   let newChoreAssignment = [{
     chore_id: choreAssignment[choreAssignemntSize - 1].chore_id,
     assigned_to: choreAssignment[0].assigned_to
@@ -82,7 +84,7 @@ exports.rotateChoreAssignment = function rotateChoreAssignment (choreAssignment)
 function getChoreAssignments (client) {
   return client.query(`
     SELECT c.chore_id, c.assigned_to 
-    FROM dev."Chores" c
+    FROM ${schema}."Chores" c
     `)
     .then( (res) => {
       return res.rows;
