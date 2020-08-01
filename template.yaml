@@ -5,6 +5,8 @@ Description: >
 
   Sample SAM Template for Chore_App
 Parameters:
+  NodeEnv:
+    Type: String
   PostgresDbname:
     Type: String
   PostgresHost:
@@ -48,6 +50,29 @@ Resources:
             Method: get
       Environment:
         Variables:
+          NODE_ENV: !Ref NodeEnv
+          POSTGRES_DBNAME: !Ref PostgresDbname
+          POSTGRES_HOST: !Ref PostgresHost
+          POSTGRES_PASS: !Ref PostgresPass
+          POSTGRES_PORT: !Ref PostgresPort
+          POSTGRES_USER: !Ref PostgresUser
+  RotateChores:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs10.x
+      VpcConfig: 
+        SecurityGroupIds: [ "sg-d2c055a0" ]
+        SubnetIds: [ "subnet-0067985a" , "subnet-e6eb4980"]
+      CodeUri: ./rotate-chores/
+      Handler: rotateChores.lambdaHandler
+      Events:
+        UpdateChoresEvent:
+          Type: Schedule
+          Properties:
+            Schedule: chron(0 0 * * MON *)
+      Environment:
+        Variables:
+          NODE_ENV: NodeEnv
           POSTGRES_DBNAME: !Ref PostgresDbname
           POSTGRES_HOST: !Ref PostgresHost
           POSTGRES_PASS: !Ref PostgresPass
