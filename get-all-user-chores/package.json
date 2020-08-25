@@ -8,7 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
-    "mocha": "^6.2.3",
+    "mocha": "^8.1.1",
     "pg": "^7.0"
   },
   "scripts": {
